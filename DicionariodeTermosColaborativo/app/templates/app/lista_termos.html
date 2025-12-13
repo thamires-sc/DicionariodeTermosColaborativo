@@ -1,0 +1,74 @@
+{% extends "../base.html" %}
+
+{% block title %}Lista de Termos{% endblock %}
+
+{% block content %}
+    <h2>🔎 Buscar e Filtrar Termos</h2>
+
+    <form method="GET" action="{% url 'lista_termos' %}" style="margin-bottom: 20px;">
+        <input type="text" name="q" placeholder="Buscar por título ou palavra-chave" 
+               value="{{ query_anterior }}" style="padding: 8px; width: 300px;">
+        
+        <select name="categoria" style="padding: 8px;">
+            <option value="">Todas as Categorias</option> 
+            
+            {% for key, value in categorias %}
+                <option value="{{ key }}" 
+                        {% if key == categoria_anterior %}selected{% endif %}>
+                    {{ value }}
+                </option>
+            {% endfor %}
+            
+        </select>
+        
+        <button type="submit" style="padding: 8px 15px;">Buscar</button>
+        
+        {% if query_anterior or categoria_anterior %}
+            <a href="{% url 'lista_termos' %}" style="margin-left: 10px;">Limpar Filtros</a>
+        {% endif %}
+    </form>
+    
+    <hr>
+
+    <h3>Total de Termos: {{ page_obj.paginator.count }}</h3>
+
+    {% for termo in termos %}
+        <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+            <h4>
+                <a href="{% url 'detalhe_termo' pk=termo.pk %}" style="text-decoration: none;">
+                    {{ termo.termo }}
+                </a>
+                <small style="color: gray;">({{ termo.get_categoria_display }})</small>
+            </h4>
+            
+            <p>{{ termo.definicao|truncatewords:30 }}...</p>
+            
+            <p><small>Adicionado por: **{{ termo.colaborador.username|default:"[Usuário Excluído]" }}**</small></p>
+            
+            <p><a href="{% url 'detalhe_termo' pk=termo.pk %}">Ver Detalhes</a></p> 
+        </div>
+    {% empty %}
+        <p style="color: #f33;">Nenhum termo encontrado com os filtros e busca atuais.</p>
+    {% endfor %}
+
+    <div class="pagination" style="margin-top: 20px;">
+        <span class="step-links">
+            {% if is_paginated %}
+                {% if page_obj.has_previous %}
+                    <a href="?page=1&q={{ query_anterior|urlencode }}&categoria={{ categoria_anterior }}">« primeira</a>
+                    <a href="?page={{ page_obj.previous_page_number }}&q={{ query_anterior|urlencode }}&categoria={{ categoria_anterior }}">anterior</a>
+                {% endif %}
+
+                <span class="current" style="margin: 0 10px;">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}&q={{ query_anterior|urlencode }}&categoria={{ categoria_anterior }}">próxima</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query_anterior|urlencode }}&categoria={{ categoria_anterior }}">última »</a>
+                {% endif %}
+            {% endif %}
+        </span>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "../base.html" %}
+
+{% block title %}Login de Usuário{% endblock %}
+
+{% block content %}
+    <h1 style="margin-top: 20px;">Acesso de Colaborador</h1>
+
+    <div style="max-width: 400px; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <p style="color: red;">Nome de usuário e/ou senha inválidos. Tente novamente.</p>
+            {% endif %}
+
+            {{ form.as_p }}
+
+            <button type="submit" style="padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Entrar</button>
+
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
+
+<p><a href="{% url 'password_reset' %}">Esqueceu sua senha?</a></p>
+    
+    <p>Ainda não tem cadastro? <a href="{% url 'cadastro' %}">**Crie uma conta**</a>.</p> 
+
+{% endblock %}
+
