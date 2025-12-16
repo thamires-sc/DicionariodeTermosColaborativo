@@ -1,0 +1,36 @@
+{% extends "../base.html" %}
+
+{% block title %}Detalhes: {{ termo.termo }}{% endblock %}
+
+{% block content %}
+    <a href="{% url 'lista_termos' %}">← Voltar para a lista</a>
+    
+    <div style="margin-top: 20px;">
+        <h1>{{ termo.termo }}</h1>
+        <p style="font-size: 1.1em; color: gray;">Categoria: 
+            <strong>{{ termo.get_categoria_display }}</strong>
+        </p>
+
+        <hr>
+        
+        <h2>Definição Completa</h2>
+        <div style="padding: 15px; background-color: #f9f9f9; border-left: 5px solid #007bff; white-space: pre-wrap;">
+            {{ termo.definicao }}
+        </div>
+
+        <p style="margin-top: 20px;">
+            **Adicionado por:** {{ termo.colaborador.username|default:"[Usuário Excluído]" }} |
+            
+            <small>Em: {{ termo.data_criacao|date:"d/m/Y H:i" }}</small>
+        </p>
+
+        {% if user.is_authenticated and user == termo.colaborador %}
+            <div style="margin-top: 30px;">
+                <h3>Ações do Autor (RF07)</h3>
+                <a href="{% url 'editar_termo' pk=termo.pk %}" style="padding: 10px; background-color: #ffc107; color: black; text-decoration: none; border-radius: 4px;">Editar</a>
+                
+                <a href="{% url 'excluir_termo' pk=termo.pk %}" style="padding: 10px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px;">Excluir</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

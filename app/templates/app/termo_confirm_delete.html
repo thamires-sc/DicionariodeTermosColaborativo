@@ -1,0 +1,36 @@
+{% extends "../base.html" %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+    <a href="{% url 'detalhe_termo' pk=termo.pk %}">← Cancelar e Voltar</a>
+
+    <h1 style="color: #dc3545; margin-top: 20px;">⚠️ Confirmação de Exclusão</h1>
+
+    <div style="border: 1px solid #dc3545; padding: 20px; background-color: #f8d7da; border-radius: 5px;">
+        
+        <h2>Tem certeza de que deseja excluir este termo?</h2>
+        
+        <p style="font-size: 1.1em; margin-top: 15px;">
+            A exclusão é **permanente**. O termo a ser excluído é:
+        </p>
+        
+        <div style="padding: 10px; background-color: white; border: 1px solid #ccc; margin-top: 10px; border-radius: 3px;">
+            <strong>Título:</strong> {{ termo.termo }}<br>
+            <strong>Categoria:</strong> {{ termo.get_categoria_display }}<br>
+            <small>Criado por: {{ termo.colaborador.username|default:"[Usuário Desconhecido]" }}</small>
+        </div>
+        
+        <form method="POST" style="margin-top: 25px;">
+            {% csrf_token %}
+            
+            <button type="submit" style="padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                SIM, EU QUERO EXCLUIR (RF07)
+            </button>
+
+            <a href="{% url 'detalhe_termo' pk=termo.pk %}" style="padding: 10px 20px; margin-left: 15px; text-decoration: none; border: 1px solid #ccc; border-radius: 4px; color: #333;">
+                Cancelar
+            </a>
+        </form>
+    </div>
+{% endblock %}

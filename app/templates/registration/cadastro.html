@@ -1,0 +1,23 @@
+{% extends "../base.html" %}
+
+{% block title %}Cadastro de Novo Colaborador{% endblock %}
+
+{% block content %}
+    <h1 style="margin-top: 20px;">Cadastre-se para Colaborar</h1>
+
+    <div class="auth-box"> <form method="post">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+
+            <button type="submit" style="background-color: #28a745;">
+                Criar Conta
+            </button>
+        </form>
+    </div>
+    
+    <p style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'login' %}">Já possuo uma conta</a>
+    </p>
+
+{% endblock %}
