@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# RF02 e RF06: Define as categorias focadas em TI
 CATEGORIA_CHOICES = (
     ('PROG', 'Programação e Desenvolvimento'),
     ('DBA', 'Banco de Dados (DBA)'),
@@ -12,7 +11,7 @@ CATEGORIA_CHOICES = (
 )
 
 class Termo(models.Model):
-    # RRN01: Garante que o título é único. A mensagem de erro está corrigida aqui.
+
     termo = models.CharField(
         max_length=100, 
         unique=True, 
@@ -22,12 +21,10 @@ class Termo(models.Model):
         }
     )
     
-    # RF02 e RRN02: Definição (validação de tamanho é feita no forms.py)
     definicao = models.TextField(
         verbose_name='Definição Completa'
     )
     
-    # RF02 e RF06: Categoria (max_length ajustado para 10 para evitar erros MySQL)
     categoria = models.CharField(
         max_length=10, 
         choices=CATEGORIA_CHOICES, 
@@ -35,7 +32,6 @@ class Termo(models.Model):
         verbose_name='Categoria'
     )
     
-    # RRN03: Autoria Automática (Usuário que cadastrou/colaborou)
     colaborador = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
@@ -43,18 +39,15 @@ class Termo(models.Model):
         verbose_name='Autor/Colaborador'
     )
     
-    # Data de registro do termo
     data_criacao = models.DateTimeField(
         auto_now_add=True
     )
     
-    # Data da última atualização
     data_atualizacao = models.DateTimeField(
         auto_now=True
     )
 
     class Meta:
-        # A classe Meta agora está correta, sem o atributo 'error_messages'
         verbose_name_plural = "Termos"
         ordering = ['termo']
         

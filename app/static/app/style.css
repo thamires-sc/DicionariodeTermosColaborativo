@@ -3,13 +3,13 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Fundo cinza claro */
+    background-color: #f4f4f4;
     color: #333;
 }
 
 /* Estilo do Cabeçalho */
 header {
-    background-color: #343a40; /* Cinza escuro (Mantendo o estilo atual) */
+    background-color: #343a40;
     color: white;
     padding: 15px 50px;
     display: flex;
