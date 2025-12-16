@@ -6,8 +6,7 @@ from django.utils.decorators import method_decorator
 from django.db.models import Q 
 from django.contrib import messages
 from .models import Termo, CATEGORIA_CHOICES
-from .forms import TermoForm
-from django.contrib.auth.forms import UserCreationForm
+from .forms import TermoForm, CadastroColaboradorForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
@@ -129,7 +128,7 @@ excluir_termo = TermoDeleteView.as_view()
 
 class CadastroView(CreateView):
 
-    form_class = UserCreationForm
+    form_class = CadastroColaboradorForm
 
     template_name = 'registration/cadastro.html'
 
